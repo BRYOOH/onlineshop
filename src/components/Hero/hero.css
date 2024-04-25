@@ -1,0 +1,64 @@
+ .h{
+    height: 100vh;
+    background: linear-gradient(180deg, #fde1ff, #e1ffea22 60%);
+    display: flex;
+    
+}
+.h-left{ 
+    display: flex;
+    flex:1;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content: center;
+    gap: 20px;
+    padding-left: 180px;
+    line-height: 1.1;
+}
+.h-left h2{
+    color:#090909 ;
+    font-size: 26px;
+    font-weight: 600;
+}
+.h-left p{
+    color:#171717 ;
+    font-size: 75px;
+    font-weight: 700;
+}
+.h-hand{
+display: flex;
+align-items: center;
+gap: 20px;
+}
+.h-hand img{
+    width: 70px;
+    
+}
+.h-latest{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 310px;
+  height: 70px;
+  border-radius: 75px;
+  margin-top: 30px;
+  background-color: #ff4141;
+  color: white;
+  font-size: 22px;
+  font-weight: 500;
+}
+.h-latest img{
+    height: 20px;
+    width: 20px;
+}
+.h-right{
+    flex:1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.h-right img{
+    height: 75vh;
+    width: 50vh;
+    border-radius: 70px;
+}

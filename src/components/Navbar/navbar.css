@@ -1,0 +1,83 @@
+.n{
+    display:flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+.Logo{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    
+}
+.Logo p{
+    color: #171717;
+    font-size: 20px;
+    font-weight: 600;
+}
+.Logo img{
+    height: 70px;
+    width: 70px;
+}
+.n-list{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 50px;
+    color: #626262;
+    font-size: 20px;
+    font-weight: 500;
+}
+.n-list li{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    cursor: pointer;
+}
+.n-list hr{
+    border: none;
+    width: 80%;
+    height: 3px;
+    border-radius: 10px;
+    background-color: #FF4141;
+}
+.n-cart{
+    display: flex;
+    align-items: center;
+gap: 45px;
+
+}
+.n-cart img{
+    cursor: pointer;
+    height: 100px;
+    width: 100px;
+}
+.n-cart button{
+    height: 58px;
+    width: 157px;
+    outline: none;
+    border: 1px solid #7a7a7a;
+    border-radius: 75px;
+    cursor: pointer;
+    background-color: bisque;
+    color: #515151;
+    font-weight: 500;
+}
+.n-cart button:active{
+background-color: aqua;
+}
+.n-cart-count{
+    width: 22px;
+    height: 22px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -35px;
+    margin-left: -75px;
+    border-radius: 11px;
+    font-size: 14px;
+    background: red;
+    cursor: pointer;
+}

@@ -1,0 +1,69 @@
+.login{
+    width: 100%;
+    height: 60%;
+    background: #fce3fe;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.l-container{
+    width: 580px;
+    height: 600px;
+    background: white;
+    margin: auto;
+    padding: 40px 60px;
+}
+.l-container h1{
+    margin: 20px 0px;
+
+}
+.l-fields{ 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 29px;
+    margin-top:30px ;
+}
+.l-fields input{
+    height: 72px;
+    width: 80%;
+    padding-left: 20px;
+    border: 1px solid #c9c9c9;
+    outline: none;
+    color: #5c5c5c;
+    font-size: 18px;
+    border-radius: 20px;
+}
+.l-container button{
+    width: 500px;
+    height: 72px;
+    border-radius: 40px;
+    border: none;
+    color: aliceblue;
+    background: #ff4141;
+    margin-top: 30px;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: 500;
+
+}
+.l-login{
+    margin-top: 20px;
+    color: #5c5c5c;
+    font-size: 18px;
+    font-weight: 500;
+}
+.l-login span{
+    color: #ff4141;
+    font-weight: 600;
+    cursor: pointer;
+}
+.l-agree{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 25px;
+    gap: 20px;
+    color: #5c5c5c;
+    font-size: 18px;
+    font-weight: 500;
+}

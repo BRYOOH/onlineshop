@@ -1,0 +1,30 @@
+.descr{
+     margin: 120px 170px;
+     background-color:linear-gradient(180deg, #fde1ff, #e1ffea22 60%);
+}
+.d-navigator{
+display: flex;
+}
+.d-navbox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    width: 171px;
+    height: 70px;
+    border: 1px solid #d0d0d0;
+}
+.d-navFade{
+
+color: #555;
+}
+.d-desc{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    border: 1px solid #d0d0d0;
+    padding: 48px;
+    padding-bottom: 70px;
+}
+
