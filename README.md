@@ -1,70 +1,151 @@
-# Getting Started with Create React App
+# Onlineshop with Reactjs and mongodb 
+The application constists of a front end, backend and admin page to access the products api.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Frontend- with Reactjs
+The application displays new collections,popular collections, different vategories for men, women and kids and weekly offers collections.
 
-## Available Scripts
+There is a login and signup page with **mongodb authentication**. With __async/await fetch method__  I accessed the mongodb database and access the users authentification token that was stored in the local storage. 
 
-In the project directory, you can run:
+When you hit the log out button the application delete the authentication token and the page resets to log in.
 
-### `npm start`
+There is a cart that allows the user to select items and remove unwanted items before cashing out.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Backend- with mongodb and node
+I used the following libraries for the backend
+*Initialize a project and create the package. json file*
+`npm init`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+*Install all the required dependencies*
+`npm install express moongose jsonwebtoken multer path cors`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The multer library helps in storage of media online.The backend has an api for posting an image into the product
 
-### `npm run build`
+```
+/Image Storage Engine
+const storage = multer.diskStorage({
+    destination: './upload/images',
+    filename: (req,file,cb)=>{
+        return cb(null, `${file.filename}_${Date.now()}${path.extname(file.originalname)}`)
+    }
+})
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+const upload= multer({storage:storage});
+//Creating Upload Endpoint for images
+app.use('/images',express.static('upload/images'))
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+app.post("/upload",upload.single('product'),(req,res)=>{
+    res.json({
+        success:1,
+        image_url:`http://localhost:${port}/images/${req.file.filename}`
+    })
+})
+```
+ You can post, delete one and get all with the api schemas for a new product.
+```app.post('/addproduct', async(req,res)=>{
+    //an array of products
+    let products = await Product.find({});
+    let id;
+    if(products.length>0){
+        let last_product_array = products.slice(-1);
+        let last_product = last_product_array[0];
+        id = last_product.id+1;
+    }
+    else{
+        id=1;
+    }
+    const product =new Product({
+        id:id,
+        name:req.body.name,
+        image:req.body.image,
+        category:req.body.category,
+        new_price:req.body.new_price,
+        old_price:req.body.old_price,
+    });
+    
+    console.log(product);
+    await product.save();
+    console.log("Saved");
+    res.json({
+        success:true,
+        name:req.body.name,
+    })
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+})
 
-### `npm run eject`
+//API for deleting Products
+app.post('/removeproduct', async (req,res)=>{
+    await Product.findOneAndDelete({id:req.body.id});
+    console.log("Removed");
+    res.json({
+        success:true,
+        name:req.body.name
+    })
+})
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+//API for Get all products
+app.get('/allproducts', async (req,res)=>{
+    let products = await Product.find({});
+    console.log("All products fetched");
+    res.send(products);
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+})
+```
+With user, we post information from the signup api and create a token that stores the user data. The token is passed thorough the api for the frontend
+```//API for Register the user
+app.post('/signup', async(req,res)=>{
+    let check = await Users.findOne({email:req.body.email});
+    if(check){
+        return res.status(400).json({success:false, errors:"existing user found with same emailID"});
+    }
+    let cart = {};
+    for (let i = 0; i < 300; i++) {
+        cart[i] = 0;
+        
+    }
+    const user = new Users({
+        name:req.body.name,
+        email:req.body.email,
+        password:req.body.password,
+        cartData:cart,
+    })
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    await user.save();
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    const data = {
+        user:{
+            id:user.id
+        }
+    }
 
-## Learn More
+    const token = jwt.sign(data,'secret_ecom');
+    res.json({success:true,token});
+})
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+//API for login page
+app.post('/login',async(req, res)=>{
+let user = await Users.findOne({email:req.body.email});
+    if(user){
+        const checkpass = req.body.password === user.password;
+        if(checkpass){
+             const data ={
+                user:{
+                    id:user.id
+                }
+             }
+             const token = jwt.sign(data,'secret_ecom');
+             res.json({success:true,token});
+        }
+        else{ 
+            res.json({success:false, errors:"Wrong password"})
+        }
+    }
+    else{
+        res.json({success:false, errors:"Wrong user email"})
+    }
+})
+```
+The login api checks if the user with same email exists in the database, it also compares the password given. The token is accessed and pushed through the api
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Admin
+The admin panel allows the owner to remove a product change the price and choose category. The product api is accessed, with a user friendly interface for easy execution.
