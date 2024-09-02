@@ -46,7 +46,10 @@ export const Navbar = () => {
               </li>
            </ul>
         <div className='n-cart'>
-            <Link to='/login'><button>Log in</button></Link>
+          {localStorage.getItem('auth-token')?<button onClick={()=>{
+            localStorage.removeItem('auth-token');window.location.replace('/');}}>LogOut</button>
+            :<Link to='/login'><button>Log in</button></Link>}
+           
            <Link to='/cart'><img src={cart}/></Link> 
             <div className='n-cart-count'>{cartIncrem()}</div> 
             

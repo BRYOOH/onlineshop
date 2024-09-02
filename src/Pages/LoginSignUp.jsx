@@ -5,29 +5,63 @@ const LoginSignup = () => {
   const[state,setState]= useState("Login");
 
   const[formData,setFormData] = useState({
-    username:"",
+    name:"",
     password:"",
     email:""
   });
 
   const changeHangler =(e)=>{
-      setFormData({...formData,[e.target.name]:[e.target.value]})
+      setFormData({...formData,[e.target.name]:e.target.value})
   }
 
-  const login = async()=>{
-  console.log("Login successful");
+  const login = async()=> {
+  console.log("Login successful",formData);
+  let responseData;
+
+  await fetch('http://localhost:4000/login',{
+    method: 'POST',
+    headers:{
+      Accept: 'application/form-data',
+      'Content-Type': 'application/json'
+    },
+    body:JSON.stringify(formData)
+  }).then((response)=>response.json()).then((data)=>responseData=data)
+
+  if(responseData.success){
+    localStorage.setItem('auth-token',responseData.token);
+    window.location.replace('/');
+  }else{
+    alert(responseData.errors);
+  }
   }
 
-  const signup = async()=>{
-   console.log("Signup successful");
-  }
+  const signup = async() => {
+   console.log("Signup successful",formData);
+   let responseData;
+
+   await fetch('http://localhost:4000/signup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/form-data',
+        'Content-Type':'application/json',
+      },
+      body:JSON.stringify(formData),
+   }).then((response)=>response.json()).then((data)=>responseData=data)
+
+   if(responseData.success){
+    localStorage.setItem('auth-token',responseData.token);
+    window.location.replace("/");
+   } else{
+    alert(responseData.errors);
+   }
+  } 
 
   return (
     <div className="login">
       <div className="l-container">
         <h1>{state}</h1>
         <div className="l-fields">
-          {state==="Sign up"?<input name="username" value={formData.username} onChange={changeHangler} type="text" placeholder='Your Name'/>:<></>}
+          {state==="Sign up"?<input name="name" value={formData.name} onChange={changeHangler} type="text" placeholder='Your Name'/>:<></>}
           <input name="email" value={formData.email} onChange={changeHangler} type="email" placeholder='Email Address'/>
           <input name="password" value={formData.password} onChange={changeHangler} type="password" placeholder='Password'/>
         </div>
