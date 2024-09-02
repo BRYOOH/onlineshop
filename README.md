@@ -6,11 +6,9 @@ The application displays new collections,popular collections, different vategori
 
 There is a login and signup page with **mongodb authentication**. With __async/await fetch method__  I accessed the mongodb database and access the users authentification token that was stored in the local storage. 
 
-When you hit the log out button the application delete the authentication token and the page resets to log in.
+When you hit the log out button the application delete the authentication token and the page resets to log in.There is a cart that allows the user to select items and remove unwanted items before cashing out.
 
-There is a cart that allows the user to select items and remove unwanted items before cashing out.
-
-### Backend- with mongodb and node
+## Backend- with mongodb and node
 I used the following libraries for the backend
 *Initialize a project and create the package. json file*
 `npm init`
@@ -147,5 +145,5 @@ let user = await Users.findOne({email:req.body.email});
 ```
 The login api checks if the user with same email exists in the database, it also compares the password given. The token is accessed and pushed through the api
 
-## Admin
+## Admin with react and vite
 The admin panel allows the owner to remove a product change the price and choose category. The product api is accessed, with a user friendly interface for easy execution.
