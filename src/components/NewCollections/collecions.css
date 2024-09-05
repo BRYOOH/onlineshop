@@ -17,8 +17,8 @@
     border-radius: 10px;
     background: #252525;
 }
-.c-items{
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+.c-item{
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 30px;
 }
