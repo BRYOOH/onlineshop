@@ -7,7 +7,7 @@ import { createContext, useEffect, useState } from "react";
     const getDefaultCart = () => {
         let cart = {};
         for (let index = 0; index < 300 +1; index++) {
-            cart [index] = 0;
+            cart[index] = 0;
             
         }
         return cart;
@@ -22,15 +22,49 @@ const ShopContextProvider = (props) => {
         fetch('http://localhost:4000/allproducts')
         .then((resp)=>resp.json()).then((data)=>setAllProducts(data))
     },[])
+
+    if(localStorage.getItem('auth-token')){
+        fetch('http://localhost:4000/getcart',{
+            method:'POST',
+            headers:{
+                Accept: 'application/form-data',
+                'auth-token': `${localStorage.getItem('auth-token')}`,
+                'Content-Type': 'apllication/json',
+            },
+            body:"",
+        }).then((resp)=>resp.json()).then((data)=>setCartItems(data));
+    }
   
-    const addToCart=(itemId)=>{
+    const addToCart= (itemId)=>{
         setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}));
-        console.log(cartItems);
+       
+        if(localStorage.getItem('auth-token')){
+            fetch ('http://localhost:4000/addtocart',{
+                method: 'POST',
+                headers:{
+                    Accept: 'application/form-data',
+                    'auth-token': `${localStorage.getItem('auth-token')}`,
+                    'Content-Type' : 'application/json',
+                },
+                body:JSON.stringify({"itemId":itemId}),
+                }).then((resp)=>resp.json()).then((data)=>console.log(data));              
+        }
+           
     }
 
     const removeFromCart=(itemId)=>{
-        setCartItems((prev)=>({...prev,[itemId]:prev
-    [itemId]-1 }));
+        setCartItems((prev)=>({...prev,[itemId]:prev[itemId]-1 }));
+        if(localStorage.getItem('auth-token')){
+            fetch ('http://localhost:4000/removefromcart',{
+                method: 'POST',
+                headers:{
+                    Accept: 'application/form-data',
+                    'auth-token': `${localStorage.getItem('auth-token')}`,
+                    'Content-Type': 'application/json',
+                },
+               body:JSON.stringify({'itemId':itemId})
+            }).then((resp)=>resp.json()).then((data)=>console.log(data))
+        }      
     }
 
     const sumTotalCart =()=>{
