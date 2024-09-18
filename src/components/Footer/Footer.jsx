@@ -15,9 +15,8 @@ const Footer = () => {
       <ul className='f-links'>
         <li>Company</li>
         <li>About</li>
-        <li>Company</li>
-        <li>Company</li>
-        <li>Company</li>
+        <li>Services</li>
+        <li>Contact</li>
       </ul>
 
       <div className="f-socialContainer">
