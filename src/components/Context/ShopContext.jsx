@@ -21,20 +21,20 @@ const ShopContextProvider = (props) => {
     useEffect(()=>{
         fetch('http://localhost:4000/allproducts')
         .then((resp)=>resp.json()).then((data)=>setAllProducts(data))
+
+        if(localStorage.getItem('auth-token')){
+            fetch('http://localhost:4000/getcart',{
+                method:'POST',
+                headers:{
+                    Accept: 'application/form-data',
+                    'auth-token': `${localStorage.getItem('auth-token')}`,
+                    'Content-Type': 'apllication/json',
+                },
+                body:"",
+            }).then((resp)=>resp.json()).then((data)=>setCartItems(data));
+        }
     },[])
 
-    if(localStorage.getItem('auth-token')){
-        fetch('http://localhost:4000/getcart',{
-            method:'POST',
-            headers:{
-                Accept: 'application/form-data',
-                'auth-token': `${localStorage.getItem('auth-token')}`,
-                'Content-Type': 'apllication/json',
-            },
-            body:"",
-        }).then((resp)=>resp.json()).then((data)=>setCartItems(data));
-    }
-  
     const addToCart= (itemId)=>{
         setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}));
        
