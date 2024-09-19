@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import data_product from '../assets/data'
 import Item from '../item/Item'
 import './relatedProducts.css'
@@ -14,7 +14,7 @@ const RelatedProduct = () => {
                    return <Item key={i}
                    id={item.id} 
                    name={item.name} 
-                   image={item.image} 
+                   image ={item.image} 
                    category={item.category} 
                    new_price={item.new_price} 
                    old_price={item.old_price}/>
