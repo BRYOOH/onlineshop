@@ -13,7 +13,7 @@ export const Navbar = () => {
   return (
     <div className='n'>
         <div className='Logo'>
-            <img src={logo} className='img'/>
+            <img src={logo} className='img' alt=''/>
             <p>GENERATION TRENDS</p>
         </div>
            <ul className='n-list'>
@@ -50,7 +50,7 @@ export const Navbar = () => {
             localStorage.removeItem('auth-token');window.location.replace('/');}}>LogOut</button>
             :<Link to='/login'><button>Log in</button></Link>}
            
-           <Link to='/cart'><img src={cart}/></Link> 
+           <Link to='/cart'><img src={cart} alt=''/></Link> 
             <div className='n-cart-count'>{cartIncrem()}</div> 
             
         </div>
